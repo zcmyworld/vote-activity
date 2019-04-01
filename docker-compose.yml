@@ -1,0 +1,36 @@
+version: '2'
+services:
+    app:
+      build: ./
+      command: 
+        - node 
+        - /vote-activity/app.js
+      ports:
+        - "3000:3000"
+      environment:
+        - NODE_ENV=dist
+        - REDIS_HOST=redis
+        - REDIS_PORT=6379
+        - DB_HOST=mysql
+        - DB_PORT=3306
+        - DB_USER=root
+        - DB_PWD=root4test
+        - DB_NAME=vote-activity
+        - SEND_HOST=smtp.exmail.qq.com
+        - SEND_EMAIL=admin@qq.qq
+        - SEND_PWD=1234qwer
+        - HOSTURL=http://127.0.0.1:3000
+      links:
+        - mysql
+        - redis
+    mysql:
+      image: mysql:5.7
+      restart: always
+      ports:
+        - "3406:3306"
+      environment:
+        - MYSQL_ROOT_PASSWORD=root4test
+    redis:
+      image: redis:2.8
+      ports:
+        - "6479:6379"
